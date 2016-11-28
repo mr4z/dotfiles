@@ -1,0 +1,270 @@
+# i3 config file (v4
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+#
+# This config file uses keycodes (bindsym) and was written for the QWERTY
+# layout.
+#
+# To get a config file with the same key positions, but for your current
+# layout, use the i3-config-wizard
+#
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:ohsnap 12
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+### THEME ###
+set $transparent #00000000
+set_from_resource $darkblack   color0
+set_from_resource $black       color8
+set_from_resource $darkred     color1
+set_from_resource $red         color9
+set_from_resource $darkgreen   color2
+set_from_resource $green       color10
+set_from_resource $darkyellow  color3
+set_from_resource $yellow      color11
+set_from_resource $darkblue    color4
+set_from_resource $blue        color12
+set_from_resource $darkmagenta color5
+set_from_resource $magenta     color13
+set_from_resource $darkcyan    color6
+set_from_resource $cyan        color14
+set_from_resource $darkwhite   color7
+set_from_resource $white       color15
+
+# Layout colors 	    bord 	bg 		text    indicator (split)
+client.focused 			$darkblue $darkblue $darkblue $darkblue
+client.focused_inactive $black $black $black $black
+client.unfocused 		$black $black $black $black
+client.urgent 			$darkblue $darkblue $darkblue $darkblue
+client.background 		$black
+
+### Borders ###
+new_window pixel 4
+new_float pixel 4
+workspace_layout default
+default_orientation horizontal
+workspace_auto_back_and_forth yes
+focus_follows_mouse yes
+focus_on_window_activation smart
+smart_gaps on
+smart_borders on
+
+### Gaps ###
+set $default_gaps_inner 12
+set $default_gaps_outer 0
+gaps inner $default_gaps_inner
+gaps outer $default_gaps_outer
+
+set $term 1:term:
+set $web 2:web:
+set $dev 3:dev:
+set $games 4:games:
+set $chat 5:chats:
+set $media 6"media:
+set $graphics 7:graphics:
+set $money 8:money:
+set $vm 9:vm:
+
+# use these keys for focus, movement, and resize directions when reaching for
+# the arrows is not convenient
+set $up k
+set $down j
+set $left h
+set $right l
+
+# use Mouse+Mod1 to drag floating windows to their wanted position
+floating_modifier Mod1
+
+# start a terminal
+bindsym Mod1+t exec --no-startup-id urxvtc
+
+# kill focused window
+bindsym Mod1+q kill
+
+# start dmenu (a program launcher)
+#bindsym Mod1+d exec dmenu_run
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+bindsym Mod1+d exec --no-startup-id i3-dmenu-desktop --dmenu='rofi -config ~/.local/rofi/config -dmenu'
+bindsym Mod4+q exec --no-startup-id xautolock -locknow
+# change focus
+bindsym Mod1+$left focus left
+bindsym Mod1+$down focus down
+bindsym Mod1+$up focus up
+bindsym Mod1+$right focus right
+
+# move focused window
+bindsym Mod4+$left move left
+bindsym Mod4+$down move down
+bindsym Mod4+$up move up
+bindsym Mod4+$right move right
+
+# split in horizontal orientation
+bindsym Mod1+c split h
+
+# split in vertical orientation
+bindsym Mod1+v split v
+
+# enter fullscreen mode for the focused container
+bindsym Mod1+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym Mod1+s layout stacking
+bindsym Mod1+w layout tabbed
+bindsym Mod1+e layout toggle split
+
+# toggle tiling / floating
+bindsym Mod4+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym Mod1+space focus mode_toggle
+
+# focus the parent container
+bindsym Mod1+a focus parent
+
+# focus the child container
+#bindsym Mod1+d focus child
+
+# move the currently focused window to the scratchpad
+bindsym Mod4+m move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym Mod1+m scratchpad show
+
+# switch to workspace
+bindsym Mod1+1 workspace $term
+bindsym Mod1+2 workspace $web
+bindsym Mod1+3 workspace $dev
+bindsym Mod1+4 workspace $chat
+bindsym Mod1+5 workspace $graphics
+bindsym Mod1+6 workspace $vm
+bindsym Mod1+7 workspace $media
+bindsym Mod1+8 workspace $games
+bindsym Mod1+9 workspace $money
+bindsym Mod1+0 workspace $ws10
+
+# move focused container to workspace
+bindsym Mod1+Shift+1 move container to workspace $term
+bindsym Mod1+Shift+2 move container to workspace $web
+bindsym Mod1+Shift+3 move container to workspace $dev
+bindsym Mod1+Shift+4 move container to workspace $chat
+bindsym Mod1+Shift+5 move container to workspace $graphics
+bindsym Mod1+Shift+6 move container to workspace $vm
+bindsym Mod1+Shift+7 move container to workspace $media
+bindsym Mod1+Shift+8 move container to workspace $games
+bindsym Mod1+Shift+9 move container to workspace $money
+bindsym Mod1+Shift+0 move container to workspace $ws10
+
+# reload the configuration file
+bindsym Mod4+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym Mod4+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym Mod4+Shift+e exec --no-startup-id  "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # Pressing left will shrink the window’s width.
+        # Pressing down will grow the window’s height.
+        bindsym $left       resize shrink width 10 px or 10 ppt
+        bindsym $down       resize grow height 10 px or 10 ppt
+        bindsym $up         resize shrink height 10 px or 10 ppt
+        bindsym $right      resize grow width 10 px or 10 ppt
+
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+}
+
+bindsym Mod1+r mode "resize"
+
+### Shortcuts ###
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer sset 'Master' 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer sset 'Master' 5%-
+bindsym XF86AudioMute exec --no-startup-id amixer sset 'Master' toggle
+bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+bindsym XF86AudioStop exec --no-startup-id mpc stop
+bindsym XF86AudioPrev exec --no-startup-id mpc prev
+bindsym XF86AudioNext exec --no-startup-id mpc next
+
+bindsym Mod1+b exec --no-startup-id chromium
+bindsym Mod1+p exec --no-startup-id pcmanfm
+bindsym Mod1+Tab workspace back_and_forth
+bindsym Mod1+F1 exec --no-startup-id rofi -config ~/.local/rofi/config -show window
+bindsym Mod1+shift+v exec --no-startup-id urxvt -name vim -e vim 
+bindsym Print exec --no-startup-id scrot 'Sceenshot_%Y-%m-%d-%T.png' -e 'mv $f ~/Pictures/screenshot/'
+bindsym Pause exec --no-startup-id scrot -u 'Sceenshot_%Y-%m-%d-%T.png' -e 'mv $f ~/Pictures/screenshot/'
+
+assign [class="^Steam$"] $games
+assign [class="^Dota 2$"] $games
+assign [class="^Vlc$"] $media
+assign [class="^Chromium$"] $web
+assign [class="^Firefox$"] $web
+assign [class="^Telegram$"] $chat
+assign [class="^pidgin$"] $chat
+assign [class="URxvt" instance="vim"] $dev
+assign [class="URxvt" instance="tty-clock"] $term
+assign [class="URxvt" instance="mcabber"] $term
+assign [class="^Virtualbox$"] $vm
+assign [class="^TeamSpeak 3$"] $chat
+assign [class="^Thunderbird$"] $chat
+assign [class="^Gimp-2.8$"] $graphics
+assign [class="^Bitcoin-Qt$"] $money
+### floating windows ###
+for_window [class="Steam"] floating enable, mode_toggle
+for_window [class="Dota 2"] floating enable
+for_window [class="PlayOnLinux"] floating enable
+for_window [class="^TeamSpeak 3$"] floating enable, mode_toggle
+for_window [class="^Bitcoin-Qt$"] floating enable, mode_toggle
+for_window [class="URxvt" instance="games-launcher$"] move to workspace $ws4, floating enable , move absolute position 400px 200px
+for_window [class="rofi"] border 0 
+for_window [class="URxvt" title="ncmpcpp 0.7.7"] move scratchpad
+for_window [title="clock"] mode_toggle, floating enable, sticky enable, resize shrink width 240px, resize shrink height 180px, move absolute position 1575px 40px 
+### Exec ###
+#exec --no-startup-id i3-msg 'workspace money:; exec bitcoin-qt'
+#exec --no-startup-id urxvtc -title clock -e tty-clock -S -c -C 6 -D -B -n
+exec --no-startup-id urxvtc -e ncmpcpp
+exec_always --no-startup-id python ~/.i3/layouts.py
+exec --no-startup-id python ~/.i3/ws_term.py
+exec --no-startup-id sh ~/.i3/bg.sh
+### color ###
+### bar ###
+#bar {
+#	status_command i3blocks -c ~/.i3/blocks.conf
+#	font pango:Ubuntu mono, FontAwesome 11
+#	position top
+#    	strip_workspace_numbers yes
+#    	height 30
+#	mode hide
+#    	colors {
+#    	statusline         $white
+#     	background         #1D1F21
+#      	separator          $white
+
+#	                           BORDER       BACKGROUND   TEXT
+#       	focused_workspace  $darkblue    $darkblue 	$white
+#	        inactive_workspace $darkblack   $darkblack 	$darkwhite
+#	        active_workspace   $transparent $transparent 	$white
+#	        urgent_workspace   $transparent $darkred	$white
+#       		binding_mode       $transparent $darkred 	$white
+#    }
+#}

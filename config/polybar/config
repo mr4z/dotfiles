@@ -1,0 +1,225 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+
+[bar/main]
+dock = false
+wm-name = polybar
+width = 100%
+height = 30
+offset-x = 0
+offset-y = 0
+
+;background = ${xrdb:color9}
+background = #1D1F21
+foreground = #ffffff
+
+;lineheight = 0
+;linecolor = #555
+overline-size = 3
+overline-color = #ffffff
+underline-size = 3
+underline-color = #ffffff
+
+border-bottom = 3
+border-bottom-color = #333
+
+spacing = 1
+padding-left = 0
+padding-right = 2
+module-margin-left = 1
+module-margin-right = 2
+
+font-0 = "Ubuntu Mono":pixelsize=13;1
+font-1 = unifont:size=6:heavy:fontformat=truetype;-2
+font-2 = siji:pixelsize=13;0
+font-3 = FontAwesome:pixelsize=13;0
+
+modules-left = i3
+modules-center = xwindow
+modules-right = lang filesystem memory cpu temp eth volume date
+
+tray-position = right
+tray-padding = 2
+;tray-transparent = true
+;tray-background = #0063ff
+
+wm-restack = i3
+
+[module/xwindow]
+type = internal/xwindow
+label =  %title%
+label-maxlen = 30
+label-underline = #A36AC7
+
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /home
+
+label-mounted =  %free%
+label-unmounted = %mountpoint%: not mounted
+label-unmounted-foreground = #55
+format-mounted-underline = #cc342b 
+
+[module/i3]
+ws-icon-0 = 1:term;
+ws-icon-1 = 2:web;
+ws-icon-2 = 3:dev;
+ws-icon-3 = 4:chats;
+ws-icon-4 = 5:graphics;
+ws-icon-5 = 6:vm;
+ws-icon-6 = 7:media;
+ws-icon-7 = 8:games;
+ws-icon-8 = 9:money;
+type = internal/i3
+format = <label-state>
+strip-wsnumbers = true
+enable-click = true
+
+label-focused = %icon% %name%
+label-focused-background = #3971ed
+label-focused-underline= #3971ed
+label-focused-padding = 2
+
+label-unfocused = %icon% 
+label-unfocused-padding = 2
+
+label-urgent = %icon% %name%
+label-urgent-background = #cc342b
+label-urgent-padding = 2
+
+label-visible = %icon% %name%
+label-visible-foreground = #55
+label-visible-padding = 2
+
+
+[module/mpd]
+type = internal/mpd
+
+format-online = <label-song> 
+label-song =  %artist% - %title%
+label-song-maxlen = 45
+label-song-ellipsis = true
+bar-progress-width = 25
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+[module/cpu]
+type = internal/cpu
+interval = 0.5
+
+format = <label> <ramp-coreload>
+
+label = CPU
+format-underline = #fba922
+
+ramp-coreload-0 = ▁
+ramp-coreload-0-foreground = #55aa55
+ramp-coreload-1 = ▂
+ramp-coreload-1-foreground = #55aa55
+ramp-coreload-2 = ▃
+ramp-coreload-2-foreground = #55aa55
+ramp-coreload-3 = ▄
+ramp-coreload-3-foreground = #55aa55
+ramp-coreload-4 = ▅
+ramp-coreload-4-foreground = #f5a70a
+ramp-coreload-5 = ▆
+ramp-coreload-5-foreground = #f5a70a
+ramp-coreload-6 = ▇
+ramp-coreload-6-foreground = #ff5555
+ramp-coreload-7 = █
+ramp-coreload-7-foreground = #ff5555
+
+
+[module/memory]
+type = internal/memory
+format = <label> <bar-used>
+interval = 0.5
+label = RAM
+format-underline = #198844
+
+bar-used-width = 10
+bar-used-indicator = 
+bar-used-indicator-font = 4
+bar-used-foreground-0 = #55aa55
+bar-used-foreground-1 = #80aa55
+bar-used-foreground-2 = #f5a70a
+bar-used-foreground-3 = #ff5555
+bar-used-fill = ▐
+bar-used-empty = ▐
+bar-used-empty-foreground = #444444
+[module/eth]
+type = internal/network
+interface = enp3s0
+interval = 3.0
+
+format-connected-underline = #cc342b
+format-disconnected-underline = ${self.format-connected-underline}
+
+label-connected =  %local_ip%
+label-disconnected = %ifname% disconnected
+label-disconnected-foreground = #55
+
+
+[module/date]
+type = internal/date
+date =  %H:%M:%S
+date-alt =  %Y-%m-%d   %H:%M:%S
+interval = 1
+format-underline = #fba922
+
+
+[module/volume]
+type = internal/volume
+
+format-volume = <label-volume>
+format-volume-underline = #198844
+label-volume =  %percentage%
+label-volume-foreground = ${root.foreground}
+
+label-muted =  muted
+label-muted-underline = #198844
+[module/temp]
+type = custom/script
+exec = echo  `sensors -A | grep -oP '^Core.+?  \+\K\d+' | awk '{k+=$1}END{print k/NR}' | grep -Eo '^.{2}'` °C
+maxlen = 10
+format-underline = #3971ed
+interval=1
+[module/lang]
+type = custom/script
+exec = ~/.config/polybar/layout.sh
+format-underline = #3971ed
+interval=1
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+format-warn-underline = ${self.format-underline}
+
+label = %temperature%
+label-warn = %temperature%
+label-warn-foreground = #e60053
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = #ffffff
+
+; vim:ft=dosini
